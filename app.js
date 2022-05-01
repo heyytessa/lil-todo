@@ -19,7 +19,7 @@ function inputTodo() {
   <button class="kebab"><svg><use href="#kebab" /></svg></button>
 `;
   addArea.prepend(blankTodo);
-  //Todo: figure out how to get focus on the new input  
+  //To-do: figure out how to get focus on the new input  
 }
 
 function add(text, id) {
@@ -37,6 +37,7 @@ function add(text, id) {
 function display(todo) {
   let newTodo = document.createElement('li');
   newTodo.setAttribute('class', 'todo-item');
+  newTodo.setAttribute('id', todo.id);
   newTodo.innerHTML = `
   <input type="checkbox" id="checkbox-input"></input>
   <label for="checkbox-input" class="checkbox"><svg><use href="#unchecked" /></svg></label>
@@ -44,6 +45,12 @@ function display(todo) {
   <button class="kebab"><svg><use href="#kebab" /></svg></button>
 `;
   todoList.appendChild(newTodo);
+}
+
+function update(todoText, id) {
+  let index = todoItems.findIndex(item => item.id === Number(id));
+  todoItems[index].text = todoText;
+  console.log(todoItems);
 }
 
 addButton.addEventListener('click', inputTodo);
@@ -57,10 +64,19 @@ document.addEventListener('keypress', (event) => {
   }
 });
 
+document.addEventListener('change', (event) => {
+  todoText = event.target.value;
+  id = event.target.parentNode.id;
+  update(todoText, id);
+  console.log(todoText, id);
+});
+
+
+
 
 // To-dos:
 // [] Add specificity to keypress return (very buggy rn with edge cases)
-// [] when input value on a todo is changed, update todo
+// [x] when input value on a todo is changed, update todo
 // [] create checked / not checked states
 
 
