@@ -1,14 +1,10 @@
-let today = new Date();
-let date = (today.getMonth()+1)+'/'+today.getDate();
-let dateField = document.getElementById('date');
-let todayDate = document.createElement('span')
-dateField.append(todayDate);
-todayDate.innerText = date;
+var today = new Date();
+var date = (today.getMonth()+1)+'/'+today.getDate();
+document.getElementById('date').innerHTML = 'Today' + ' ' + date;
 
 let todoList = document.getElementById('todo-list');
 let addButton = document.getElementById('add-button');
 let todoText = document.getElementById('todo-text');
-
 
 function add() {
   let todo = document.createElement('li');
@@ -17,7 +13,7 @@ function add() {
   todo.innerHTML = `
   <input type="checkbox" id="checkbox-input"></input>
   <label for="checkbox-input" class="checkbox"><svg><use href="#unchecked" /></svg></label>
-  <input type="text" id="todo-text" class="todo-text" autofocus/>
+  <input type="text" id="todo-text-input"/>
   <button class="kebab"><svg><use href="#kebab" /></svg></button>
 `;
   todoList.appendChild(todo);
@@ -25,6 +21,14 @@ function add() {
 
 
 addButton.addEventListener('click', add);
+
+document.addEventListener('keypress', (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    add();
+  }
+});
+
 
 
 
