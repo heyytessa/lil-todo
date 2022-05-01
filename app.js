@@ -4,28 +4,41 @@ document.getElementById('date').innerHTML = 'Today' + ' ' + date;
 
 let todoList = document.getElementById('todo-list');
 let addButton = document.getElementById('add-button');
-let todoText = document.getElementById('todo-text');
+let todoText = document.getElementById('todo-text-input');
 
-function add() {
-  let todo = document.createElement('li');
-  todo.setAttribute('class', 'todo-item');
-  todo.setAttribute('id', Date.now());
-  todo.innerHTML = `
+let todoItems = [];
+
+function inputTodo() {
+  let blankTodo = document.createElement('li');
+  blankTodo.setAttribute('class', 'todo-item');
+  blankTodo.innerHTML = `
   <input type="checkbox" id="checkbox-input"></input>
   <label for="checkbox-input" class="checkbox"><svg><use href="#unchecked" /></svg></label>
   <input type="text" id="todo-text-input"/>
   <button class="kebab"><svg><use href="#kebab" /></svg></button>
 `;
-  todoList.appendChild(todo);
+  todoList.appendChild(blankTodo);
+  //Todo: figure out how to get focus on the new input  
 }
 
+function add (text, id) {
+  let todo = {
+    checked: false,
+    text,
+    id
+  }
 
-addButton.addEventListener('click', add);
+  todoItems.push(todo);
+  console.log(todoItems);
+}
+
+addButton.addEventListener('click', inputTodo);
 
 document.addEventListener('keypress', (event) => {
   if (event.key === 'Enter') {
     event.preventDefault();
-    add();
+    add(document.activeElement.value, Date.now());
+    inputTodo();
   }
 });
 
