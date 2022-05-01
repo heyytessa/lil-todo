@@ -21,7 +21,7 @@ function inputTodo() {
   //Todo: figure out how to get focus on the new input  
 }
 
-function add (text, id) {
+function add(text, id) {
   let todo = {
     checked: false,
     text,
@@ -29,7 +29,20 @@ function add (text, id) {
   }
 
   todoItems.push(todo);
+  display(todo);
   console.log(todoItems);
+}
+
+function display(todo) {
+  let newTodo = document.createElement('li');
+  newTodo.setAttribute('class', 'todo-item');
+  newTodo.innerHTML = `
+  <input type="checkbox" id="checkbox-input"></input>
+  <label for="checkbox-input" class="checkbox"><svg><use href="#unchecked" /></svg></label>
+  <input type="text" id="todo-text-input" value="${todo.text}" />
+  <button class="kebab"><svg><use href="#kebab" /></svg></button>
+`;
+  todoList.appendChild(newTodo);
 }
 
 addButton.addEventListener('click', inputTodo);
