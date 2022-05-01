@@ -76,15 +76,15 @@ input[type=text]:focus-visible {
   width: 20px;
   height: 20px;
 }
-
+/* 
 .new-todo-area {
   margin-top: 20px;
-  height: 20px;
-}
+} */
 
-.new-todo-area button {
+.add-button {
   color: #939799;
   padding: 0;
   border: none;
   border-radius: none;
+  margin-top: 10px;
 }

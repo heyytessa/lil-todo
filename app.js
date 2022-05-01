@@ -3,13 +3,14 @@ var date = (today.getMonth()+1)+'/'+today.getDate();
 document.getElementById('date').innerHTML = 'Today' + ' ' + date;
 
 let todoList = document.getElementById('todo-list');
+let addArea = document.getElementById('new-todo-area');
 let addButton = document.getElementById('add-button');
 let todoText = document.getElementById('todo-text-input');
 
 let todoItems = [];
 
 function inputTodo() {
-  let blankTodo = document.createElement('li');
+  let blankTodo = document.createElement('div');
   blankTodo.setAttribute('class', 'todo-item');
   blankTodo.innerHTML = `
   <input type="checkbox" id="checkbox-input"></input>
@@ -17,7 +18,7 @@ function inputTodo() {
   <input type="text" id="todo-text-input"/>
   <button class="kebab"><svg><use href="#kebab" /></svg></button>
 `;
-  todoList.appendChild(blankTodo);
+  addArea.prepend(blankTodo);
   //Todo: figure out how to get focus on the new input  
 }
 
@@ -51,11 +52,15 @@ document.addEventListener('keypress', (event) => {
   if (event.key === 'Enter') {
     event.preventDefault();
     add(document.activeElement.value, Date.now());
-    inputTodo();
+    document.activeElement.value = '';
+    // inputTodo();
   }
 });
 
 
-
+// To-dos:
+// [] Add specificity to keypress return (very buggy rn with edge cases)
+// [] when input value on a todo is changed, update todo
+// [] create checked / not checked states
 
 
