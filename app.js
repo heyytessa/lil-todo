@@ -77,7 +77,7 @@ addButton.addEventListener('click', () => {
 
 // Hitting return adds another todo item
 todoList.addEventListener('keypress', (event) => {
-  if (event.key === 'Enter') {
+  if (event.key === 'Enter' && event.target.id != 'remove-button' ) {
     event.preventDefault();
     let id = Date.now();
     addTodo(id);
@@ -104,3 +104,6 @@ todoList.addEventListener('click', (event) => {
     toggle(id);
 }
 });
+
+//Bugs to fix
+//[x] tabbing to the remove button and hitting enter creates a new todo
