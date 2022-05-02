@@ -5,6 +5,7 @@ document.getElementById('date').innerHTML = 'Today' + ' ' + date;
 let todoList = document.getElementById('todo-list');
 let addArea = document.getElementById('new-todo-area');
 let addButton = document.getElementById('add-button');
+let removeButton = document.getElementById('remove-button');
 let todoText = document.getElementById('todo-text-input');
 
 let todoItems = [];
@@ -16,7 +17,6 @@ function inputTodo() {
   <input type="checkbox" id="checkbox-input"></input>
   <label for="checkbox-input" class="checkbox"><svg><use href="#unchecked" /></svg></label>
   <input type="text" id="todo-text-input"/>
-  <button class="kebab"><svg><use href="#kebab" /></svg></button>
 `;
   addArea.prepend(blankTodo);
   //To-do: figure out how to get focus on the new input  
@@ -55,13 +55,13 @@ function display(todo) {
     <input type="checkbox" id="checkbox-input"></input>
     <label for="checkbox-input" class="checkbox"><svg><use href="#checked" /></svg></label>
     <input type="text" id="todo-text-input" class="todo-item${isDone}" value="${todo.text}" />
-    <button class="kebab"><svg><use href="#kebab" /></svg></button>
+    <button class="remove-button" id="remove-button"><svg><use href="#remove" /></svg></button>
   `;} else {
     todoItem.innerHTML = `
     <input type="checkbox" id="checkbox-input"></input>
     <label for="checkbox-input" class="checkbox"><svg><use href="#unchecked" /></svg></label>
     <input type="text" id="todo-text-input" value="${todo.text}" />
-    <button class="kebab"><svg><use href="#kebab" /></svg></button>
+    <button class="remove-button" id="remove-button"><svg><use href="#remove" /></svg></button>
   `;
   }
 
@@ -76,6 +76,13 @@ function update(todoText, id) {
   let index = todoItems.findIndex(item => item.id === Number(id));
   todoItems[index].text = todoText;
   console.log(todoItems);
+}
+
+function remove(id) {
+document.getElementById(id).remove();
+let index = todoItems.findIndex(item => item.id === Number(id));
+todoItems.splice(index, 1);
+console.log(todoItems);
 }
 
 //Clicking add task launches inputTodo field
@@ -106,6 +113,16 @@ addArea.addEventListener('keypress', (event) => {
       id = event.target.parentNode.id;
       toggle(id);
   }});
+
+//Clicking remove button on a todo removes that todo from todoList
+todoList.addEventListener('click', (event) => {
+  if(event.target && event.target.id == "remove-button") {
+    id = event.target.parentNode.id;
+    remove(id);
+    console.log(id);
+  }
+});
+
 
 
 

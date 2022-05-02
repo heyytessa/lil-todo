@@ -72,11 +72,11 @@ input[type=text]:focus-visible {
   height: 20px;
 }
 
-.kebab {
+.remove-button {
   position: relative;
 }
 
-.kebab svg {
+.remove-button svg {
   width: 20px;
   height: 20px;
 }
