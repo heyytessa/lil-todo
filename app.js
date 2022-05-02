@@ -9,7 +9,7 @@ let todoText = document.getElementById('todo-text-input');
 let todoItems = [];
 
 function display(todo) {
-  let currentItem = document.querySelector(`[id = '${todo.id}']`);
+  let currentItem = document.getElementById(`${todo.id}`);
   let isDone = todo.checked? 'done' : '';
   let todoItem = document.createElement('li');
   todoItem.setAttribute('class', 'todo-item');
@@ -18,13 +18,13 @@ function display(todo) {
     todoItem.innerHTML = `
     <input type="checkbox" id="checkbox-input"></input>
     <label for="checkbox-input" class="checkbox"><svg><use href="#checked" /></svg></label>
-    <input type="text" class="todo-text-input" id="todo-text-input-${todo.id}" class="todo-item${isDone}" value="${todo.text}" />
+    <input type="text" id="todo-text-input-${todo.id}" class="todo-text-input todo-item${isDone}" value="${todo.text}" />
     <button class="remove-button" id="remove-button"><svg><use href="#remove" /></svg></button>
   `;} else {
     todoItem.innerHTML = `
     <input type="checkbox" id="checkbox-input"></input>
     <label for="checkbox-input" class="checkbox"><svg><use href="#unchecked" /></svg></label>
-    <input type="text" class="todo-text-input" id="todo-text-input-${todo.id}" value="${todo.text}" />
+    <input type="text" id="todo-text-input-${todo.id}" class="todo-text-input" value="${todo.text}" />
     <button class="remove-button" id="remove-button"><svg><use href="#remove" /></svg></button>
   `;
   }
@@ -87,23 +87,23 @@ todoList.addEventListener('keypress', (event) => {
 
 //Editing an existing todo updates its todoText
 todoList.addEventListener('change', (event) => {
+  let id = event.target.parentNode.id;
   if(event.target.classList.contains("todo-text-input")) {
     todoText = event.target.value;
-    id = event.target.parentNode.id;
     update(todoText, id);
   }
 });
 
 //Clicking checkbox toggles todo status, clicking remove button removes todo
 todoList.addEventListener('click', (event) => {
+  let id = event.target.parentNode.id;
   if(event.target && event.target.id == "remove-button") {
-    id = event.target.parentNode.id;
     remove(id);
   } else if (event.target.classList.contains('checkbox')) {
-    id = event.target.parentNode.id;
     toggle(id);
 }
 });
 
 //Bugs to fix
 //[x] tabbing to the remove button and hitting enter creates a new todo
+//[x] competing classes on todo input (one for focus, the other for strikethrough) - can I add a span around the input?
