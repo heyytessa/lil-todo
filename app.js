@@ -16,9 +16,10 @@ function inputTodo() {
   blankTodo.innerHTML = `
   <input type="checkbox" id="checkbox-input"></input>
   <label for="checkbox-input" class="checkbox"><svg><use href="#unchecked" /></svg></label>
-  <input type="text" id="todo-text-input"/>
+  <input type="text" id="new-todo-text-input"/>
 `;
-  addArea.prepend(blankTodo);
+  addArea.append(blankTodo);
+  document.getElementById("new-todo-text-input").focus();
   //To-do: figure out how to get focus on the new input  
 }
 
@@ -86,7 +87,13 @@ console.log(todoItems);
 }
 
 //Clicking add task launches inputTodo field
-addButton.addEventListener('click', inputTodo);
+addButton.addEventListener('click', () => {
+  if (document.getElementById('new-todo-area').innerHTML === '') {  
+  inputTodo();
+  } else {
+    document.getElementById("new-todo-text-input").focus();
+  }
+});
 
 // Hitting return saves todo and resets input field to blank
 addArea.addEventListener('keypress', (event) => {
@@ -94,6 +101,14 @@ addArea.addEventListener('keypress', (event) => {
     event.preventDefault();
     add(document.activeElement.value, Date.now());
     document.activeElement.value = '';
+  }
+});
+
+// Hitting esc clears newTodoArea
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    console.log('esc key pressed');
+    addArea.innerHTML = '';
   }
 });
 
@@ -134,5 +149,8 @@ todoList.addEventListener('click', (event) => {
 // [x] write toggle function
 // [x] create checked / not checked states
 // [x] bug: hitting enter after a todo.checked=true item breaks
+// [x] autofocus input when you first add a todo
+// [x] add button should only input new todo if newTodoArea is empty 
+// [x] esc should clear newTodoArea
 
 
