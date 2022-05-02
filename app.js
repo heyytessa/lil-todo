@@ -34,17 +34,42 @@ function add(text, id) {
   console.log(todoItems);
 }
 
+function toggle(id) {
+  let index = todoItems.findIndex(item => item.id === Number(id));
+  todoItems[index].checked = !todoItems[index].checked;
+  console.log(todoItems[index].checked, todoItems);
+
+  display(todoItems[index]);
+}
+
 function display(todo) {
-  let newTodo = document.createElement('li');
-  newTodo.setAttribute('class', 'todo-item');
-  newTodo.setAttribute('id', todo.id);
-  newTodo.innerHTML = `
-  <input type="checkbox" id="checkbox-input"></input>
-  <label for="checkbox-input" class="checkbox"><svg><use href="#unchecked" /></svg></label>
-  <input type="text" id="todo-text-input" value="${todo.text}" />
-  <button class="kebab"><svg><use href="#kebab" /></svg></button>
-`;
-  todoList.appendChild(newTodo);
+  let currentItem = document.querySelector(`[id = '${todo.id}']`);
+
+  let isDone = todo.checked? 'done' : '';
+
+  let todoItem = document.createElement('li');
+  todoItem.setAttribute('class', 'todo-item');
+  todoItem.setAttribute('id', todo.id);
+  if (todo.checked) {
+    todoItem.innerHTML = `
+    <input type="checkbox" id="checkbox-input"></input>
+    <label for="checkbox-input" class="checkbox"><svg><use href="#checked" /></svg></label>
+    <input type="text" id="todo-text-input" class="todo-item${isDone}" value="${todo.text}" />
+    <button class="kebab"><svg><use href="#kebab" /></svg></button>
+  `;} else {
+    todoItem.innerHTML = `
+    <input type="checkbox" id="checkbox-input"></input>
+    <label for="checkbox-input" class="checkbox"><svg><use href="#unchecked" /></svg></label>
+    <input type="text" id="todo-text-input" value="${todo.text}" />
+    <button class="kebab"><svg><use href="#kebab" /></svg></button>
+  `;
+  }
+
+  if (currentItem) {
+    todoList.replaceChild(todoItem, currentItem);
+  } else {
+    todoList.append(todoItem);
+  }
 }
 
 function update(todoText, id) {
@@ -53,23 +78,35 @@ function update(todoText, id) {
   console.log(todoItems);
 }
 
+//Clicking add task launches inputTodo field
 addButton.addEventListener('click', inputTodo);
 
-document.addEventListener('keypress', (event) => {
+// Hitting return saves todo and resets input field to blank
+addArea.addEventListener('keypress', (event) => {
   if (event.key === 'Enter') {
     event.preventDefault();
     add(document.activeElement.value, Date.now());
     document.activeElement.value = '';
-    // inputTodo();
   }
 });
 
-document.addEventListener('change', (event) => {
-  todoText = event.target.value;
-  id = event.target.parentNode.id;
-  update(todoText, id);
-  console.log(todoText, id);
-});
+//Editing an existing todo updates its todoText
+  todoList.addEventListener('change', (event) => {
+    if(event.target && event.target.id == "todo-text-input") {
+      todoText = event.target.value;
+      id = event.target.parentNode.id;
+      update(todoText, id);
+      // console.log(todoText, id);
+    }
+  });
+
+// Clicking a checkbox toggles that todo's status
+  todoList.addEventListener('click', (event) => {
+    if (event.target.classList.contains('checkbox')) {
+      id = event.target.parentNode.id;
+      toggle(id);
+  }});
+
 
 
 
@@ -77,6 +114,8 @@ document.addEventListener('change', (event) => {
 // To-dos:
 // [] Add specificity to keypress return (very buggy rn with edge cases)
 // [x] when input value on a todo is changed, update todo
-// [] create checked / not checked states
+// [x] write toggle function
+// [x] create checked / not checked states
+// [x] bug: hitting enter after a todo.checked=true item breaks
 
 

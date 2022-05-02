@@ -59,6 +59,10 @@ input[type=text]:focus-visible {
   margin-top: 0px;
 }
 
+.todo-itemdone {
+  text-decoration: line-through;
+}
+
 .checkbox {
   position:relative;
 }
@@ -87,4 +91,8 @@ input[type=text]:focus-visible {
   border: none;
   border-radius: none;
   margin-top: 10px;
+}
+
+svg {
+  pointer-events: none;
 }
