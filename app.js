@@ -52,6 +52,7 @@ function addTodo(id) {
 function update(todoText, id) {
   let index = todoItems.findIndex(item => item.id === Number(id));
   todoItems[index].text = todoText;
+  display(todoItems[index]);
   console.log(todoItems);
 }
 
@@ -75,13 +76,16 @@ addButton.addEventListener('click', () => {
   addTodo(id);
 });
 
-// Hitting return adds another todo item
-todoList.addEventListener('keypress', (event) => {
+// Hitting return adds another todo item, hitting backspace on an empty input deletes the todo
+todoList.addEventListener('keydown', (event) => {
   if (event.key === 'Enter' && event.target.id != 'remove-button' ) {
     event.preventDefault();
     let id = Date.now();
     addTodo(id);
     document.getElementById(`todo-text-input-${id}`).focus();
+  } else if (event.key === 'Backspace' && event.target.value === '') {
+    let id = event.target.parentNode.id;
+    remove(id);
   }
 });
 
